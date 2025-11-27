@@ -3,16 +3,22 @@ workflows:
     name: Build APK
     max_build_duration: 60
     environment:
-      flutter: stable
+      android:
+        build_tools: "33.0.2"
+        ndk: "r25c"
       vars:
-        BUILD_TYPE: "apk"
+        BUILD_TYPE: "Debug"
     scripts:
       - name: Set up JDK
         script: |
           sudo apt-get update
           sudo apt-get install -y openjdk-11-jdk
+      - name: Grant execute permission for gradlew
+        script: |
+          chmod +x ./gradlew
       - name: Build APK
         script: |
           ./gradlew assembleDebug
     artifacts:
-      - build/app/outputs/**/*.apk
+      - app/build/outputs/**/*.apk
+
