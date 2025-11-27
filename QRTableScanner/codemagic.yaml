@@ -1,0 +1,18 @@
+workflows:
+  android-workflow:
+    name: Build APK
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      vars:
+        BUILD_TYPE: "apk"
+    scripts:
+      - name: Set up JDK
+        script: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-11-jdk
+      - name: Build APK
+        script: |
+          ./gradlew assembleDebug
+    artifacts:
+      - build/app/outputs/**/*.apk
