@@ -1,24 +1,21 @@
 workflows:
-  android-workflow:
-    name: Build APK
+  android-build:
+    name: Android Debug Build
     max_build_duration: 60
     environment:
-      android:
-        build_tools: "33.0.2"
-        ndk: "r25c"
       vars:
-        BUILD_TYPE: "Debug"
+        ANDROID_HOME: /usr/local/android-sdk
+      java: 17
     scripts:
-      - name: Set up JDK
-        script: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-11-jdk
-      - name: Grant execute permission for gradlew
-        script: |
-          chmod +x ./gradlew
+      - name: Make gradlew executable
+        script: chmod +x gradlew
       - name: Build APK
-        script: |
-          ./gradlew assembleDebug
+        script: ./gradlew assembleDebug --stacktrace
     artifacts:
-      - app/build/outputs/**/*.apk
+      - app/build/outputs/apk/debug/*.apk
+    publishing:
+      email:
+        recipients:
+          - "youremail@example.com"
+
 
